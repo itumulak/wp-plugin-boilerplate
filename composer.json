@@ -1,0 +1,12 @@
+{
+    "name": "itumulak/wp-boilerplate",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Itumulak\\": "Includes/"
+        }
+    },
+    "require": {
+        "kucrut/vite-for-wp": "^0.11.4"
+    }
+}
