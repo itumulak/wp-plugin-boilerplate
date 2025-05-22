@@ -1,0 +1,8 @@
+node_modules
+vendor
+build
+dist
+wordpress_data
+db_data
+package-lock.json
+*.zip
