@@ -1,10 +1,10 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import Dashboard from "./Dashboard";
+import SampleNotes from "./SampleNotes";
 
-createRoot(document.getElementById("hmg-dashboard")).render(
+createRoot(document.getElementById("sample-notes")).render(
     <StrictMode>
-      <Dashboard/>
+      <SampleNotes/>
     </StrictMode>,
 );
   
