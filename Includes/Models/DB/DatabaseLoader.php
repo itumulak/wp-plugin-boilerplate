@@ -1,5 +1,5 @@
 <?php
-namespace TMT\HMG\Includes\DB;
+namespace Itumulak\Includes\DB;
 
 if ( ! defined( 'ABSPATH' ) ) {
     exit;

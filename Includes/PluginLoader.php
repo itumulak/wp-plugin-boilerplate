@@ -8,3 +8,5 @@ if ( ! defined( 'ABSPATH' ) ) {
 use Itumulak\Includes\Shortcodes\ShortcodeLoader;
 use Itumulak\Includes\Routes\RouterLoader;
 use Itumulak\Includes\RewriteRules\RewriteRulesLoader;
+
+class PluginLoader {}

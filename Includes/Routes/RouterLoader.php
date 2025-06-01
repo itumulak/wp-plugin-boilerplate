@@ -1,7 +1,5 @@
 <?php
-namespace TMT\HMG\Includes\Routes;
-
-use TMT\HMG\Includes\Controllers\SpreadSheet;
+namespace Itumulak\Includes\Routes;
 
 if ( ! defined( 'ABSPATH' ) ) {
     exit;
