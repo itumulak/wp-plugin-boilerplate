@@ -5,4 +5,5 @@ dist
 wordpress_data
 db_data
 package-lock.json
+composer.lock
 *.zip
