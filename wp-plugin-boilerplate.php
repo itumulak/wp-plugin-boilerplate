@@ -11,7 +11,7 @@
  */
 
 use Itumulak\Includes\PluginLoader;
-use Itumulak\Includes\DB\DatabaseLoader;
+use Itumulak\Includes\Models\DB\DatabaseLoader;
 
 if ( ! defined( 'ABSPATH' ) ) {
     exit; // Exit if accessed directly.

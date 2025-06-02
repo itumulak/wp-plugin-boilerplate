@@ -1,5 +1,5 @@
 <?php
-namespace Itumulak\Includes\DB;
+namespace Itumulak\Includes\Models\DB;
 
 if ( ! defined( 'ABSPATH' ) ) {
     exit;
