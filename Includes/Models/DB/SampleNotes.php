@@ -5,7 +5,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 } // Exit if accessed directly
 
-use Itumulak\Includes\Interface\DBTable;
+use Itumulak\Includes\Interfaces\DBTable;
 use  Itumulak\Includes\Models\DB\Base;
 
 class SampleNotes extends Base implements DBTable {
@@ -23,5 +23,8 @@ class SampleNotes extends Base implements DBTable {
             note_created DATETIME NOT NULL COLLATE $this->collate,
             PRIMARY KEY (id)
         ) {$this->get_charset_collate()}" );
+
+        require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+        dbDelta($sql);
     }
 }

@@ -1,7 +1,7 @@
 <?php
 namespace Itumulak\Includes\Models\DB;
 
-use Itumulak\Includes\Interface\CRUD;
+use Itumulak\Includes\Interfaces\CRUD;
 use Itumulak\Includes\Models\Data\QueryWhere;
 use WP_Error;
 use wpdb;
