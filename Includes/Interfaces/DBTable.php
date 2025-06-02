@@ -1,5 +1,5 @@
 <?php
-namespace Itumulak\Includes\Interface;
+namespace Itumulak\Includes\Interfaces;
 
 if ( ! defined( 'ABSPATH' ) ) {
     exit;

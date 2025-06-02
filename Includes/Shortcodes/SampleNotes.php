@@ -5,7 +5,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 } // Exit if accessed directly
 
-use Itumulak\Includes\Interface\Shortcode;
+use Itumulak\Includes\Interfaces\Shortcode;
 use Kucrut\Vite;
 
 class SampleNotes implements Shortcode {

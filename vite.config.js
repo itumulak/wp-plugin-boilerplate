@@ -9,7 +9,7 @@ export default defineConfig({
         react(),
         v4wp({
             input: {
-                dashboard: 'src/pages/Dashboard/main.jsx',
+                samplenotes: 'src/pages/SampleNotes/main.jsx',
             },
             outDir: 'dist'
         }),
