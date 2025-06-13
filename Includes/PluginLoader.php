@@ -8,6 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 use Itumulak\Includes\Shortcodes\ShortcodeLoader;
 use Itumulak\Includes\Routes\RouterLoader;
 use Itumulak\Includes\RewriteRules\RewriteRulesLoader;
+use Itumulak\Includes\Blocks\BlockLoader;
 
 class PluginLoader {
 	public function __construct() {
@@ -21,5 +22,6 @@ class PluginLoader {
         ( new ShortcodeLoader() )->init();
         ( new RouterLoader() )->init();
         ( new RewriteRulesLoader() )->init();
+        ( new BlockLoader() )->init();
     }
 }
