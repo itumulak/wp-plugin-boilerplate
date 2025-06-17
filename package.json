@@ -6,21 +6,17 @@
     "scripts": {
         "dev": "vite",
         "build": "vite build",
+        "build:blocks": "node scripts/build-blocks.js",
         "lint": "eslint .",
         "preview": "vite preview"
     },
-    "dependencies": {
+    "devDependencies": {
         "@kucrut/vite-for-wp": "^0.11.4",
         "react": "^19.0.0",
-        "react-dom": "^19.0.0"
-    },
-    "devDependencies": {
+        "react-dom": "^19.0.0",
         "@types/react": "^19.0.10",
         "@types/react-dom": "^19.0.4",
         "@vitejs/plugin-react": "^4.5.2",
-        "@wordpress/block-editor": "^14.20.0",
-        "@wordpress/blocks": "^14.14.0",
-        "@wordpress/i18n": "^5.25.0",
         "rollup-plugin-external-globals": "^0.13.0",
         "sass-embedded": "^1.89.2",
         "vite": "^6.3.5"

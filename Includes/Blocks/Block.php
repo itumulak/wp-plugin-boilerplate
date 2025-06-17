@@ -6,13 +6,17 @@ if ( ! defined( 'ABSPATH' ) ) {
 } // Exit if accessed directly
 
 class Block {
-    protected function get_block_file( string $folder ): string {
-        $block_path = WPPB_PATH . 'Pages/blocks/';
-    
-        return sprintf( 'Pages/blocks/%s/block.js', WPPB_PATH, $folder );
+    public function __construct( private string $folder ) {
+        $this->register();
     }
 
-    protected function get_main_file( string $folder ): string {
-        return sprintf( 'src/blocks/%s/index.jsx', WPPB_PATH, $folder );
+    public function register(): void {
+        register_block_type( $this->get_block_file() );
+    }
+
+    protected function get_block_file(): string {
+        $block_path = WPPB_PATH . 'dist';
+    
+        return sprintf( '%s/%s/block.json', $block_path, $this->folder );
     }
 }
