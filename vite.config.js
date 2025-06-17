@@ -10,7 +10,6 @@ export default defineConfig({
         v4wp({
             input: {
                 samplenotes: 'src/pages/SampleNotes/main.jsx',
-                'my-awesome-block': 'src/blocks/my-awesome-block/index.jsx',
             },
             outDir: 'dist'
         }),
