@@ -1,6 +1,6 @@
 # WP Plugin Boilerplate
 
-This is a modern approach (I think) built in the concept of **MVC architecture** and **Dependency Injection** design pattern. This boilerplate integrates seemlessly with **React** for building interactive UI components.
+This is a modern approach (I think) built in the concept of **MVC architecture** and **Dependency Injection** design pattern. This boilerplate is ideal for building scalable, enterprise-level plugins that will power your WordPress application.
 
 ## 🚀 Features
 
@@ -121,7 +121,7 @@ bash zip-project.sh
 - Refactor and refine codebase for registering hooks.
 - Utilize PHP Code Sniffer to the project. Go away with PSR-4?
 - Add PHP unit test.
-- ~~Provide Gutenburn support.~~
+- ~~Provide Gutenburg support.~~
 
 ## 📜 License
 [GPL v2](https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html)

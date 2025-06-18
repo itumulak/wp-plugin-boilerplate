@@ -6,7 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 } // Exit if accessed directly
 
 use Itumulak\Includes\Controllers\SampleNotes as SampleNotesController;
-use Itumulak\Includes\Interface\Router;
+use Itumulak\Includes\Interfaces\Router;
 use Itumulak\Includes\Models\Data\QueryWhere;
 use Itumulak\Includes\Routes\Base;
 use WP_Error;
