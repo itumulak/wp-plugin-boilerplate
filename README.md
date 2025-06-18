@@ -119,6 +119,7 @@ bash zip-project.sh
 ## 📋 TODOs
 - Switch to Preact?
 - Refactor and refine codebase for registering hooks.
+- Utilize PHP Code Sniffer to the project. Go away with PSR-4?
 - ~~Provide Gutenburn support.~~
 
 ## 📜 License
