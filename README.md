@@ -110,6 +110,12 @@ To build and compile:
 npm run build:blocks
 ```
 
+### Compile plugin into ZIP
+
+```sh
+bash zip-project.sh
+```
+
 ## 📋 TODOs
 - Switch to Preact?
 - Refactor and refine codebase for registering hooks.
