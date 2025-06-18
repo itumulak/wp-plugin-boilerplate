@@ -1,6 +1,6 @@
 # WP Plugin Boilerplate
 
-This is a modern approach (I think) built in the concept of MVC architecture and Dependency Injection design pattern. This boilerplate integrates seemlessly with **React** for building interactive UI components.
+This is a modern approach (I think) built in the concept of **MVC architecture** and **Dependency Injection** design pattern. This boilerplate integrates seemlessly with **React** for building interactive UI components.
 
 ## 🚀 Features
 
