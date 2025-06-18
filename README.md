@@ -120,6 +120,7 @@ bash zip-project.sh
 - Switch to Preact?
 - Refactor and refine codebase for registering hooks.
 - Utilize PHP Code Sniffer to the project. Go away with PSR-4?
+- Add PHP unit test.
 - ~~Provide Gutenburn support.~~
 
 ## 📜 License
