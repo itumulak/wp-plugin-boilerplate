@@ -9,8 +9,12 @@ use Itumulak\Includes\Interfaces\Shortcode;
 use Kucrut\Vite;
 
 class SampleNotes implements Shortcode {
-    const SHORTCODE = 'sample_notes';
-    const SCRIPT_HANDLE = 'sample-notes';
+    private const SHORTCODE = 'sample_notes';
+    private const SCRIPT_HANDLE = 'sample-notes';
+
+    public static function get_shortcode(): string {
+        return self::SHORTCODE;
+    }
 
     public function render( array $atts ): string|false {
         ob_start();

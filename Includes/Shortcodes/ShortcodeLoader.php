@@ -8,22 +8,32 @@ if (!defined('ABSPATH')) {
 use Itumulak\Includes\Shortcodes\SampleNotes;
 
 class ShortcodeLoader {
-    private SampleNotes $sample_notes;
+    private array $shortcodes;
 
     public function __construct() {
-        $this->sample_notes = new SampleNotes();
+        $this->load_shortcode();
     }
 
     public function init(): void {
-        $this->shortcodes();
+        add_action( 'init', array( $this, 'register_shortcodes' ) );
         add_action( 'wp_enqueue_scripts', array( $this, 'scripts' ) );
     }
 
-    public function scripts(): void {
-        $this->sample_notes->scripts();
+    public function register_scripts(): void {
+        foreach ( $this->shortcodes as $shortcode ) {
+            $shortcode->scripts();
+        }   
     }
 
-    public function shortcodes(): void {
-        add_shortcode( SampleNotes::SHORTCODE, array( $this->sample_notes, 'render' ) );
+    public function register_shortcodes(): void {
+        foreach ( $this->shortcodes as $shortcode ) {
+            add_shortcode( $shortcode::get_shortcode(), array( $shortcode, 'render' ) );
+        }
+    }
+    
+    private function load_shortcode(): void {
+        $this->shortcodes = array(
+            SampleNotes::class
+        );
     }
 }
