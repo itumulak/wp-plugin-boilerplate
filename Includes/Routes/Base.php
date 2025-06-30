@@ -6,5 +6,5 @@ if ( ! defined( 'ABSPATH' ) ) {
 } // Exit if accessed directly
 
 class Base {
-    const BASE = 'itumulak/v1'; // Modify this...
+    const BASE = 'itumulak/v1';
 }

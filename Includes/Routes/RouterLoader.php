@@ -21,7 +21,8 @@ class RouterLoader implements Loader {
 
     public function register(): void {
         foreach ( $this->routes as $route ) {
-            add_action( 'rest_api_init', array( new $route(), 'register_routes' ) );
+            $instance = new $route();
+            add_action( 'rest_api_init', array( $instance, 'register_routes' ) );
         }
     }
 
