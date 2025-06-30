@@ -17,7 +17,7 @@ class SampleNotes implements Shortcode {
     }
 
     public function render( array $atts ): string|false {
-        wp_enqueue_script( self::SCRIPT_HANDLE );
+        add_action( 'wp_enqueue_scripts', array( $this, 'scripts' ) );
 
         ob_start();
         load_template( WPPB_PATH . 'Pages/SampleNotes/index.php', true );
@@ -25,7 +25,7 @@ class SampleNotes implements Shortcode {
     }
 
     public function scripts(): void {
-        Vite\register_asset(
+        Vite\enqueue_asset(
             WPPB_PATH . 'dist',
             'src/pages/SampleNotes/main.jsx',
             array(

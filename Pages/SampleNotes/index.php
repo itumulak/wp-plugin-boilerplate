@@ -5,4 +5,4 @@
  * @package itumulak/wp-boilerplate
  */
 ?>
-<div id="sample-notes"></div>
+<div id="sample-notes">test</div>

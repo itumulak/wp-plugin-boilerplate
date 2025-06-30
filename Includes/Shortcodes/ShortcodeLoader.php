@@ -1,9 +1,9 @@
 <?php
 namespace Itumulak\Includes\Shortcodes;
 
-if (!defined('ABSPATH')) {
+if ( ! defined( 'ABSPATH' ) ) {
     exit;
-}
+} // Exit if accessed directly
 
 use Itumulak\Includes\Interfaces\Loader;
 use Itumulak\Includes\Shortcodes\SampleNotes;
@@ -21,7 +21,7 @@ class ShortcodeLoader implements Loader {
 
     public function register(): void {
         foreach ( $this->shortcodes as $shortcode ) {
-            add_shortcode( $shortcode::get_shortcode(), array( $shortcode, 'render' ) );
+            add_shortcode( $shortcode::get_shortcode(), array( new $shortcode, 'render' ) );
         }
     }
     
