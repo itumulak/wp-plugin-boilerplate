@@ -1,29 +1,34 @@
 <?php
 namespace Itumulak\Includes\Shortcodes;
 
-if (!defined('ABSPATH')) {
+if ( ! defined( 'ABSPATH' ) ) {
     exit;
-}
+} // Exit if accessed directly
 
+use Itumulak\Includes\Interfaces\Loader;
 use Itumulak\Includes\Shortcodes\SampleNotes;
 
-class ShortcodeLoader {
-    private SampleNotes $sample_notes;
+class ShortcodeLoader implements Loader {
+    private array $shortcodes;
 
     public function __construct() {
-        $this->sample_notes = new SampleNotes();
+        $this->load();
     }
 
     public function init(): void {
-        $this->shortcodes();
-        add_action( 'wp_enqueue_scripts', array( $this, 'scripts' ) );
+        add_action( 'init', array( $this, 'register' ) );
     }
 
-    public function scripts(): void {
-        $this->sample_notes->scripts();
+    public function register(): void {
+        foreach ( $this->shortcodes as $shortcode ) {
+            $instance = new $shortcode();
+            add_shortcode( $instance->get_shortcode(), array( $instance, 'render' ) );
+        }
     }
-
-    public function shortcodes(): void {
-        add_shortcode( SampleNotes::SHORTCODE, array( $this->sample_notes, 'render' ) );
+    
+    public function load(): void {
+        $this->shortcodes = array(
+            SampleNotes::class
+        );
     }
 }
