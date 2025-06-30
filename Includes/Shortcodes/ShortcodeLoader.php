@@ -21,7 +21,8 @@ class ShortcodeLoader implements Loader {
 
     public function register(): void {
         foreach ( $this->shortcodes as $shortcode ) {
-            add_shortcode( $shortcode::get_shortcode(), array( new $shortcode, 'render' ) );
+            $instance = new $shortcode();
+            add_shortcode( $instance->get_shortcode(), array( $instance, 'render' ) );
         }
     }
     
