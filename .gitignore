@@ -8,3 +8,4 @@ package-lock.json
 composer.lock
 *.zip
 copyright-date-block
+.phpunit.result.cache
