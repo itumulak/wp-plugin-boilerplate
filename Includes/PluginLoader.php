@@ -12,7 +12,7 @@ use Itumulak\Includes\Blocks\BlockLoader;
 
 class PluginLoader {
 	public function __construct() {
-		$this->initialize_components();
+		$this->load_dependencies();
 		$this->initialize_components();
 	}
 
