@@ -1,12 +1,27 @@
 {
     "name": "itumulak/wp-boilerplate",
     "type": "project",
+    "require-dev": {
+        "phpunit/phpunit": "^9.5.24",
+        "kucrut/vite-for-wp": "^0.11.4",
+        "php-stubs/wordpress-stubs": "^6.8",
+        "squizlabs/php_codesniffer": "*",
+        "wp-coding-standards/wpcs": "^3.0",
+        "10up/wp_mock": "^1.1"
+    },
     "autoload": {
         "psr-4": {
             "Itumulak\\Includes\\": "Includes/"
         }
     },
-    "require": {
-        "kucrut/vite-for-wp": "^0.11.4"
+    "autoload-dev": {
+        "psr-4": {
+            "Itumulak\\Tests\\": "tests/"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
     }
 }

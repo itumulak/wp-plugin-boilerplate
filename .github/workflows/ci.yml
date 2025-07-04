@@ -1,0 +1,32 @@
+name: CI - Test & PHPCS
+
+on:
+  pull_request:
+    branches:
+      - main
+      - master
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    name: Run Unit Tests and PHPCS
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.1
+          tools: composer
+          extensions: mbstring, dom, json
+
+      - name: Install Composer dependencies
+        run: composer install --prefer-dist --no-progress
+
+      - name: Run PHPUnit
+        run: ./vendor/bin/phpunit --configuration phpunit.xml --testdox
+
+      - name: Run PHPCS (WordPress Coding Standards)
+        run: ./vendor/bin/phpcs --standard=phpcs.xml --ignore=vendor --extensions=php .
