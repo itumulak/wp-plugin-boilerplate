@@ -7,181 +7,179 @@ use WP_Error;
 use wpdb;
 
 if ( ! defined( 'ABSPATH' ) ) {
-    exit;
+	exit;
 } // Exit if accessed directly
 
 class Base implements CRUD {
-    const PREFIX = '';
-    public string $table_name;
-    protected wpdb $db;
-    protected string $collate = 'utf8mb4_unicode_520_ci';
-    protected string $charset = 'utf8mb4';
+	const PREFIX = '';
+	public string $table_name;
+	protected wpdb $db;
+	protected string $collate = 'utf8mb4_unicode_520_ci';
+	protected string $charset = 'utf8mb4';
 
-    public function __construct( string $table_name ) {
-        global $wpdb;
+	public function __construct( string $table_name ) {
+		global $wpdb;
 
-        $this->db = $wpdb;
-        $this->table_name = $this->format_table_name( $table_name );
-    }
+		$this->db         = $wpdb;
+		$this->table_name = $this->format_table_name( $table_name );
+	}
 
-    private function format_table_name( string $table_name ): string {
-        return $this->db->prefix . $this::PREFIX . $table_name;
-    }
+	private function format_table_name( string $table_name ): string {
+		return $this->db->prefix . $this::PREFIX . $table_name;
+	}
 
-    protected function table_exists(): bool {
-        return $this->db->get_var( "SHOW TABLES LIKE '{$this->table_name}'" ) === $this->table_name;
-    }
+	protected function table_exists(): bool {
+		return $this->db->get_var( "SHOW TABLES LIKE '{$this->table_name}'" ) === $this->table_name;
+	}
 
-    protected function get_charset_collate(): string {
-        return sprintf( 'DEFAULT CHARACTER SET %s COLLATE %s', $this->charset, $this->collate );
-    }
+	protected function get_charset_collate(): string {
+		return sprintf( 'DEFAULT CHARACTER SET %s COLLATE %s', $this->charset, $this->collate );
+	}
 
-    public function insert( array $data ): int|WP_Error {
-        $response = $this->db->insert( $this->table_name, $data );
+	public function insert( array $data ): int|WP_Error {
+		$response = $this->db->insert( $this->table_name, $data );
 
-        if ( ! $response ) {
-            return new WP_Error(
-                'insert_failed',
-                'Insert failed',
-                array(
-                    'data' => $data,
-                    'response' => $response,
-                    'query' => $this->db->last_query
-                )
-            );
-        }
+		if ( ! $response ) {
+			return new WP_Error(
+				'insert_failed',
+				'Insert failed',
+				array(
+					'data'     => $data,
+					'response' => $response,
+					'query'    => $this->db->last_query,
+				)
+			);
+		}
 
-        return $this->db->insert_id;
-    }
+		return $this->db->insert_id;
+	}
 
-    public function get( array|string $where ): array|WP_Error {
-        if ( is_array( $where ) ) {
-            $where = $where ? $this->build_where_query( $where ) : '';
-        }
-        
-        $response = $this->db->get_row(
-            "SELECT * FROM {$this->table_name} $where", ARRAY_A
-        );
+	public function get( array|string $where ): array|WP_Error {
+		if ( is_array( $where ) ) {
+			$where = $where ? $this->build_where_query( $where ) : '';
+		}
 
-        if ( ! $response ) {
-            $error = new WP_Error(
-                'not_found',
-                'Data not found'
-            );
+		$response = $this->db->get_row(
+			"SELECT * FROM {$this->table_name} $where",
+			ARRAY_A
+		);
 
-            return $error;
-        }
+		if ( ! $response ) {
+			$error = new WP_Error(
+				'not_found',
+				'Data not found'
+			);
 
-        return is_array( $response ) ? $response : new WP_Error( 'invalid_response', 'Unexpected response type' );
-    }
+			return $error;
+		}
 
-    public function get_records( QueryWhere $where ): array|WP_Error {
-        $where_query = $where->build_query();
-        
-        $response = $this->db->get_results(
-            "SELECT * FROM {$this->table_name} $where_query", 
-            ARRAY_A
-        );
-        
-        return is_array( $response ) ? $response : new WP_Error( 'invalid_response', 'Unexpected response type' );
-    }
+		return is_array( $response ) ? $response : new WP_Error( 'invalid_response', 'Unexpected response type' );
+	}
 
-    public function update( array $where, array $data ): bool|WP_Error {
-        $response = $this->db->update(
-            $this->table_name,
-            $data,
-            $where
-        );
-        
-        if ( false === $response ) {
-            return new WP_Error(
-                'update_failed',
-                'Update failed'
-            );
-        }
+	public function get_records( QueryWhere $where ): array|WP_Error {
+		$where_query = $where->build_query();
 
-        return $response;
-    }
+		$response = $this->db->get_results(
+			"SELECT * FROM {$this->table_name} $where_query",
+			ARRAY_A
+		);
 
-    public function delete( array $where ): int|false {
-        $response = $this->db->delete(
-            $this->table_name,
-            $where
-        );
+		return is_array( $response ) ? $response : new WP_Error( 'invalid_response', 'Unexpected response type' );
+	}
 
-        return $response;
-    }
+	public function update( array $where, array $data ): bool|WP_Error {
+		$response = $this->db->update(
+			$this->table_name,
+			$data,
+			$where
+		);
 
-    public function insert_or_update( array $where, array $data ): int|bool|WP_Error {
-        $existing = $this->get( $where );
-        
-        if ( $existing instanceof WP_Error ) {
-            return $this->insert( $data );
-        } else {
-            $this->update( $where, $data );
+		if ( false === $response ) {
+			return new WP_Error(
+				'update_failed',
+				'Update failed'
+			);
+		}
 
-            return $existing['ID'];
-        }
-    }
+		return $response;
+	}
 
-    public function count_records( ?QueryWhere $where = null ): int {
-        $where_query = '';
-        $count = 0;
+	public function delete( array $where ): int|false {
+		$response = $this->db->delete(
+			$this->table_name,
+			$where
+		);
 
-        if ( !is_null( $where ) ) {
-            $where_query = $where->build_query();
-        }
+		return $response;
+	}
 
-        $response = $this->db->get_var(
-            "SELECT COUNT(*) FROM {$this->table_name} $where_query"
-        );
+	public function insert_or_update( array $where, array $data ): int|bool|WP_Error {
+		$existing = $this->get( $where );
 
-        if ( ! is_null ( $response ) ) {
-            $count = $response;
-        }
+		if ( $existing instanceof WP_Error ) {
+			return $this->insert( $data );
+		} else {
+			$this->update( $where, $data );
 
-        return $count;
-    }
+			return $existing['ID'];
+		}
+	}
 
-    public function query( string $query ): array|WP_Error {
-        return $this->db->get_results( $query, ARRAY_A );
-    }
+	public function count_records( ?QueryWhere $where = null ): int {
+		$where_query = '';
+		$count       = 0;
 
-    public function build_where_query( ?array $conditions, ?array $search = array(), ?array $date_range = array() ): string {
-        $where = array();
+		if ( ! is_null( $where ) ) {
+			$where_query = $where->build_query();
+		}
 
-        // Handle key = value conditions
-        if ( !empty( $conditions ) ) {
-            foreach ($conditions as $column => $value) {
-                $escapedVal = is_string($value) ? "'" . addslashes($value) . "'" : $value;
-                $where[] = "`$column` = $escapedVal";
-            }
-        }
-        
-        // Handle search
-        if ( !empty( $search ) ) {
-            foreach ( $search['columns'] as $column ) {
-                $needle = $search['needle'];
-                $search_clauses[] = "$column LIKE '%$needle%'";
-            }
-        
-            $where[] = '(' . implode( ' OR ', $search_clauses ) . ')';
-        }
+		$response = $this->db->get_var(
+			"SELECT COUNT(*) FROM {$this->table_name} $where_query"
+		);
 
-        // Handle date range
-        if ( !empty( $date_range ) ) {
-            foreach ($date_range as $column => $range) {
-                if (!empty($range['start'])) {
-                    $start = addslashes($range['start']);
-                    $where[] = "`$column` >= '$start'";
-                }
-                if (!empty($range['end'])) {
-                    $end = addslashes($range['end']);
-                    $where[] = "`$column` <= '$end'";
-                }
-            }
-        }
+		if ( ! is_null( $response ) ) {
+			$count = $response;
+		}
 
-        return !empty($where) ? 'WHERE ' . implode(' AND ', $where) : '';
-    }
+		return $count;
+	}
+
+	public function query( string $query ): array|WP_Error {
+		return $this->db->get_results( $query, ARRAY_A );
+	}
+
+	public function build_where_query( ?array $conditions, ?array $search = array(), ?array $date_range = array() ): string {
+		$where = array();
+
+		if ( ! empty( $conditions ) ) {
+			foreach ( $conditions as $column => $value ) {
+				$escaped_val = is_string( $value ) ? "'" . addslashes( $value ) . "'" : $value;
+				$where[]     = "`$column` = $escaped_val";
+			}
+		}
+
+		if ( ! empty( $search ) ) {
+			foreach ( $search['columns'] as $column ) {
+				$needle           = $search['needle'];
+				$search_clauses[] = "$column LIKE '%$needle%'";
+			}
+
+			$where[] = '(' . implode( ' OR ', $search_clauses ) . ')';
+		}
+
+		if ( ! empty( $date_range ) ) {
+			foreach ( $date_range as $column => $range ) {
+				if ( ! empty( $range['start'] ) ) {
+					$start   = addslashes( $range['start'] );
+					$where[] = "`$column` >= '$start'";
+				}
+				if ( ! empty( $range['end'] ) ) {
+					$end     = addslashes( $range['end'] );
+					$where[] = "`$column` <= '$end'";
+				}
+			}
+		}
+
+		return ! empty( $where ) ? 'WHERE ' . implode( ' AND ', $where ) : '';
+	}
 }

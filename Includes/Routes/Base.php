@@ -2,9 +2,9 @@
 namespace Itumulak\Includes\Routes;
 
 if ( ! defined( 'ABSPATH' ) ) {
-    exit;
+	exit;
 } // Exit if accessed directly
 
 class Base {
-    const BASE = 'itumulak/v1';
+	const BASE = 'itumulak/v1';
 }
