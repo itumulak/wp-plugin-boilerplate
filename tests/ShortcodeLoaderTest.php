@@ -10,10 +10,6 @@ class ShortcodeLoaderTest extends TestCase {
 			define( 'ABSPATH', dirname( __DIR__, 3 ) . '/' );
 		}
 
-		if ( ! defined( 'ABSPATH' ) ) {
-			define( 'ABSPATH', dirname( __DIR__ ) );
-		}
-
 		if ( ! defined( 'WPPB_PATH' ) ) {
 			define( 'WPPB_PATH', dirname( __DIR__, 2 ) . '/' ); // Adjust if needed
 		}
@@ -37,39 +33,48 @@ class ShortcodeLoaderTest extends TestCase {
 	public function testRegistersShortcodes(): void {
 		$loader = new ShortcodeLoader();
 
-		$refClass = new ReflectionClass( $loader );
-		$prop     = $refClass->getProperty( 'shortcodes' );
-		$prop->setAccessible( true );
+		$refClass = new ReflectionClass($loader);
+		$prop     = $refClass->getProperty('shortcodes');
+		$prop->setAccessible(true);
 
-		$originalShortcodes = $prop->getValue( $loader );
-		$mockedShortcodes   = array();
+		$originalShortcodes = $prop->getValue($loader);
 
-		foreach ( $originalShortcodes as $fqcn ) {
-			$shortcode_name = strtolower( ( new ReflectionClass( $fqcn ) )->getShortName() );
+		foreach ($originalShortcodes as $fqcn) {
+			$class = new $fqcn();
 
-			$mock = $this->getMockBuilder( $fqcn )
-				->disableOriginalConstructor()
-				->onlyMethods( array( 'get_shortcode', 'render' ) )
-				->getMock();
+			$this->assertTrue(
+				method_exists($class, 'get_shortcode'),
+				"Shortcode class {$fqcn} is missing the get_shortcode() method."
+			);
 
-			$mock->method( 'get_shortcode' )->willReturn( $shortcode_name );
+			$this->assertTrue(
+				method_exists($class, 'scripts'),
+				"Shortcode class {$fqcn} is missing the scripts() method."
+			);
+
+			$this->assertTrue(
+				method_exists($class, 'render'),
+				"Shortcode class {$fqcn} is missing the render() method."
+			);
+
+			$this->assertNotNull(
+				$class->get_shortcode(),
+				"Shortcode class {$fqcn} returned null for get_shortcode()."
+			);
 
 			WP_Mock::userFunction(
 				'add_shortcode',
 				array(
 					'times' => 1,
-					'args'  => array( $shortcode_name, array( $mock, 'render' ) ),
+					'args'  => array(
+						$class->get_shortcode(),
+						array( $class, 'render' )
+					)
 				)
 			);
-
-			$mockedShortcodes[$shortcode_name] = $mock;
 		}
 
-		$prop->setValue( $loader, $mockedShortcodes );
-
-		foreach ( $mockedShortcodes as $shortcode_name => $mock ) {
-			add_shortcode( $shortcode_name, array( $mock, 'render' ) );
-			$this->assertTrue( true, 'add_shortcode should have been called.' );
-		}
+		$loader->register();
+		$this->assertTrue(true, 'All shortcodes should have been registered via add_shortcode.');
 	}
 }
