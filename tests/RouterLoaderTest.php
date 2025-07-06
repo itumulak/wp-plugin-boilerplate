@@ -55,18 +55,47 @@ class RouterLoaderTest extends TestCase {
 		$routeClasses = $prop->getValue( $loader );
 
 		foreach ( $routeClasses as $fqcn ) {
-			$instance = new $fqcn();
-
 			$this->assertTrue(
 				method_exists( $fqcn, 'register_routes' ),
 				"Route class {$fqcn} is missing the register_routes() method."
 			);
 
-			// self::assertTrue( has_action( 'rest_api_init', array( $instance, 'register_routes' ) ) );
+			$instance = new $fqcn();
 
 			Functions\expect( 'add_action' )
 				->once()
 				->with( 'rest_api_init', array( $instance, 'register_routes' ) );
+
+			Functions\when('register_rest_route')->alias(function ($namespace, $route, $args) use ($fqcn) {
+				$this->assertIsString($namespace, "{$fqcn} - First param (namespace) must be a string.");
+				$this->assertIsString($route, "{$fqcn} - Second param (route) must be a string.");
+				$this->assertIsArray($args, "{$fqcn} - Third param must be an array.");
+
+				$allowed_methods = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'];
+
+				$this->assertArrayHasKey('methods', $args, "{$fqcn} - Missing 'methods' key.");
+				$this->assertContains($args['methods'], $allowed_methods, "{$fqcn} - Invalid method {$args['methods']}.");
+
+				$this->assertArrayHasKey('callback', $args, "{$fqcn} - Missing 'callback' key.");
+				$this->assertTrue(is_callable($args['callback']), "{$fqcn} - 'callback' must be callable.");
+
+				if (is_array($args['callback']) && is_object($args['callback'][0])) {
+                $callbackMethod = $args['callback'][1] ?? '';
+                $object = $args['callback'][0];
+                TestCase::assertTrue(
+                    method_exists($object, $callbackMethod),
+                    "{$fqcn} - Callback method '{$callbackMethod}' does not exist in class " . get_class($object)
+                );
+            }
+
+				$this->assertArrayHasKey('permission_callback', $args, "{$fqcn} - Missing 'permission_callback' key.");
+				$this->assertTrue(
+					is_callable($args['permission_callback']) || is_string($args['permission_callback']),
+					"{$fqcn} - 'permission_callback' must be a callable or a string."
+				);
+			});
+
+			$instance->register_routes();
 		}
 
 		$loader->register();
