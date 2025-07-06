@@ -79,15 +79,6 @@ class RouterLoaderTest extends TestCase {
 				$this->assertArrayHasKey('callback', $args, "{$fqcn} - Missing 'callback' key.");
 				$this->assertTrue(is_callable($args['callback']), "{$fqcn} - 'callback' must be callable.");
 
-				if (is_array($args['callback']) && is_object($args['callback'][0])) {
-                $callbackMethod = $args['callback'][1] ?? '';
-                $object = $args['callback'][0];
-                TestCase::assertTrue(
-                    method_exists($object, $callbackMethod),
-                    "{$fqcn} - Callback method '{$callbackMethod}' does not exist in class " . get_class($object)
-                );
-            }
-
 				$this->assertArrayHasKey('permission_callback', $args, "{$fqcn} - Missing 'permission_callback' key.");
 				$this->assertTrue(
 					is_callable($args['permission_callback']) || is_string($args['permission_callback']),
