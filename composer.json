@@ -7,7 +7,8 @@
         "php-stubs/wordpress-stubs": "^6.8",
         "squizlabs/php_codesniffer": "*",
         "wp-coding-standards/wpcs": "^3.0",
-        "10up/wp_mock": "^1.1"
+        "10up/wp_mock": "^1.1",
+        "brain/monkey": "^2.6"
     },
     "autoload": {
         "psr-4": {

@@ -1,80 +1,75 @@
 <?php
-use WP_Mock\Tools\TestCase;
+use PHPUnit\Framework\TestCase;
+use Brain\Monkey;
+use Brain\Monkey\Functions;
+use Brain\Monkey\Actions;
 use Itumulak\Includes\Shortcodes\ShortcodeLoader;
 
 class ShortcodeLoaderTest extends TestCase {
 	public function setUp(): void {
-		WP_Mock::setUp();
+		parent::setUp();
+		Monkey\setUp();
 
 		if ( ! defined( 'ABSPATH' ) ) {
 			define( 'ABSPATH', dirname( __DIR__, 3 ) . '/' );
 		}
 
 		if ( ! defined( 'WPPB_PATH' ) ) {
-			define( 'WPPB_PATH', dirname( __DIR__, 2 ) . '/' ); // Adjust if needed
+			define( 'WPPB_PATH', dirname( __DIR__, 2 ) . '/' );
 		}
 	}
 
 	public function tearDown(): void {
-		WP_Mock::tearDown();
+		Monkey\tearDown();
 		parent::tearDown();
 	}
 
 	public function testRegistersHooksShortcodes(): void {
-		$classInstance = new ShortcodeLoader();
+		$loader = new ShortcodeLoader();
 
-		WP_Mock::expectActionAdded( 'init', array( $classInstance, 'register' ) );
+		Actions\expectAdded( 'init', array( $loader, 'register' ) );
 
-		$classInstance->init();
-
-		WP_Mock::assertHooksAdded();
+		$loader->init();
+		$this->assertTrue( true, 'ShortcodeLoader should add the "init" hook for its register method.' );
 	}
 
 	public function testRegistersShortcodes(): void {
 		$loader = new ShortcodeLoader();
 
-		$refClass = new ReflectionClass($loader);
-		$prop     = $refClass->getProperty('shortcodes');
-		$prop->setAccessible(true);
+		$refClass = new ReflectionClass( $loader );
+		$prop     = $refClass->getProperty( 'shortcodes' );
+		$prop->setAccessible( true );
 
-		$originalShortcodes = $prop->getValue($loader);
+		$shortcodeClasses = $prop->getValue( $loader );
 
-		foreach ($originalShortcodes as $fqcn) {
-			$class = new $fqcn();
+		foreach ( $shortcodeClasses as $fqcn ) {
+			$instance = new $fqcn();
 
 			$this->assertTrue(
-				method_exists($class, 'get_shortcode'),
+				method_exists( $fqcn, 'get_shortcode' ),
 				"Shortcode class {$fqcn} is missing the get_shortcode() method."
 			);
 
 			$this->assertTrue(
-				method_exists($class, 'scripts'),
+				method_exists( $fqcn, 'scripts' ),
 				"Shortcode class {$fqcn} is missing the scripts() method."
 			);
 
 			$this->assertTrue(
-				method_exists($class, 'render'),
+				method_exists( $fqcn, 'render' ),
 				"Shortcode class {$fqcn} is missing the render() method."
 			);
 
 			$this->assertNotNull(
-				$class->get_shortcode(),
+				$instance->get_shortcode(),
 				"Shortcode class {$fqcn} returned null for get_shortcode()."
 			);
 
-			WP_Mock::userFunction(
-				'add_shortcode',
-				array(
-					'times' => 1,
-					'args'  => array(
-						$class->get_shortcode(),
-						array( $class, 'render' )
-					)
-				)
-			);
+			Functions\expect( 'add_shortcode' )
+				->once()
+				->with( $instance->get_shortcode(), array( $instance, 'render' ) );
 		}
 
 		$loader->register();
-		$this->assertTrue(true, 'All shortcodes should have been registered via add_shortcode.');
 	}
 }
