@@ -7,6 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use Itumulak\Includes\Shortcodes\ShortcodeLoader;
 use Itumulak\Includes\Routes\RouterLoader;
+use Itumulak\Includes\Roles\RoleLoader;
 use Itumulak\Includes\RewriteRules\RewriteRulesLoader;
 use Itumulak\Includes\Blocks\BlockLoader;
 
@@ -21,6 +22,7 @@ class PluginLoader {
 	private function initialize_components() {
 		( new ShortcodeLoader() )->init();
 		( new RouterLoader() )->init();
+		( new RoleLoader() )->init();
 		( new RewriteRulesLoader() )->init();
 		( new BlockLoader() )->init();
 	}
