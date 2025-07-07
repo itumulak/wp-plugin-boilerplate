@@ -1,7 +1,7 @@
 <?php
 /**
  * Output Dashboard.
- * 
+ *
  * @package itumulak/wp-boilerplate
  */
 ?>
