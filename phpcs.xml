@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<ruleset name="Custom WordPress Ruleset">
+
+  <!-- Use the full WordPress Coding Standards suite (Core, Extra, Docs) -->
+  <rule ref="WordPress"/>
+
+  <!-- Analyze all PHP files in the root and subfolders -->
+  <file>.</file>
+
+  <!-- Exclude third-party code and dependencies -->
+  <exclude-pattern>vendor/*</exclude-pattern>
+  <exclude-pattern>node_modules/*</exclude-pattern>
+
+  <!-- Disable filename rules that enforce lowercase-hyphenated and class- prefixes -->
+  <rule ref="WordPress.Files.FileName">
+    <!-- Don't require file names to be lowercase with hyphens -->
+    <exclude name="WordPress.Files.FileName.NotHyphenatedLowercase"/>
+    
+    <!-- Don't require class file names to be prefixed with 'class-' -->
+    <exclude name="WordPress.Files.FileName.InvalidClassFileName"/>
+  </rule>
+
+  <!-- Disable missing file-level PHPDoc comment -->
+  <rule ref="Squiz.Commenting.FileComment">
+    <severity>0</severity>
+  </rule>
+
+  <!-- Disable missing PHPDoc comment for class declarations -->
+  <rule ref="Squiz.Commenting.ClassComment">
+    <severity>0</severity>
+  </rule>
+
+  <!-- Disable missing doc comments for class member variables -->
+  <rule ref="Squiz.Commenting.VariableComment">
+    <severity>0</severity>
+  </rule>
+
+  <!-- Disable missing doc comments for functions and methods -->
+  <rule ref="Squiz.Commenting.FunctionComment">
+    <severity>0</severity>
+  </rule>
+
+</ruleset>

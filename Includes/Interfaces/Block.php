@@ -2,9 +2,9 @@
 namespace Itumulak\Includes\Interfaces;
 
 if ( ! defined( 'ABSPATH' ) ) {
-    exit;
+	exit;
 } // Exit if accessed directly
 
 interface Block {
-    public function register();
+	public function register();
 }

@@ -2,9 +2,9 @@
 namespace Itumulak\Includes\Interfaces;
 
 if ( ! defined( 'ABSPATH' ) ) {
-    exit;
+	exit;
 } // Exit if accessed directly
 
 interface Router {
-    public function register_routes(): void;
+	public function register_routes(): void;
 }

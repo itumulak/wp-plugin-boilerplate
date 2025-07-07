@@ -12,16 +12,16 @@ use Itumulak\Includes\Blocks\BlockLoader;
 
 class PluginLoader {
 	public function __construct() {
-        $this->initialize_components();
-        $this->initialize_components();
-    }
+		$this->load_dependencies();
+		$this->initialize_components();
+	}
 
-    public function load_dependencies() {}
+	public function load_dependencies() {}
 
 	private function initialize_components() {
-        ( new ShortcodeLoader() )->init();
-        ( new RouterLoader() )->init();
-        ( new RewriteRulesLoader() )->init();
-        ( new BlockLoader() )->init();
-    }
+		( new ShortcodeLoader() )->init();
+		( new RouterLoader() )->init();
+		( new RewriteRulesLoader() )->init();
+		( new BlockLoader() )->init();
+	}
 }
