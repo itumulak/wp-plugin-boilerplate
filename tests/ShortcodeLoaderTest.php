@@ -36,13 +36,13 @@ class ShortcodeLoaderTest extends TestCase {
 	public function testRegistersShortcodes(): void {
 		$loader = new ShortcodeLoader();
 
-		$refClass = new ReflectionClass( $loader );
-		$prop     = $refClass->getProperty( 'shortcodes' );
+		$ref_class = new ReflectionClass( $loader );
+		$prop      = $ref_class->getProperty( 'shortcodes' );
 		$prop->setAccessible( true );
 
-		$shortcodeClasses = $prop->getValue( $loader );
+		$shortcode_classes = $prop->getValue( $loader );
 
-		foreach ( $shortcodeClasses as $fqcn ) {
+		foreach ( $shortcode_classes as $fqcn ) {
 			$instance = new $fqcn();
 
 			$this->assertTrue(
