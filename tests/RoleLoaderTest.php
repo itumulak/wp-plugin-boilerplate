@@ -6,7 +6,7 @@ use Brain\Monkey\Actions;
 use Itumulak\Includes\Roles\RoleLoader;
 
 class RoleLoaderTest extends TestCase {
-    public function setUp(): void {
+	public function setUp(): void {
 		parent::setUp();
 		Monkey\setUp();
 
@@ -24,42 +24,42 @@ class RoleLoaderTest extends TestCase {
 		parent::tearDown();
 	}
 
-    public function testRegistersHooksRoles() {
-        $loader = new RoleLoader();
+	public function testRegistersHooksRoles() {
+		$loader = new RoleLoader();
 
-        Actions\expectAdded( 'init', array( $loader, 'register' ) );
+		Actions\expectAdded( 'init', array( $loader, 'register' ) );
 
-        $loader->init();
-        $this->assertTrue( true, 'RoleLoader should add the "init" hook for its register method.' );
-    }
+		$loader->init();
+		$this->assertTrue( true, 'RoleLoader should add the "init" hook for its register method.' );
+	}
 
-    public function testRegistersRoles() {
-        $loader = new RoleLoader();
+	public function testRegistersRoles() {
+		$loader = new RoleLoader();
 
-        $ref_class = new ReflectionClass( $loader );
-        $prop      = $ref_class->getProperty( 'roles' );
-        $prop->setAccessible( true );
+		$ref_class = new ReflectionClass( $loader );
+		$prop      = $ref_class->getProperty( 'roles' );
+		$prop->setAccessible( true );
 
-        $role_classes = $prop->getValue( $loader );
+		$role_classes = $prop->getValue( $loader );
 
-        foreach ( $role_classes as $fqcn ) {
-            $instance = new $fqcn();
+		foreach ( $role_classes as $fqcn ) {
+			$instance = new $fqcn();
 
-            $this->assertTrue(
-                !empty( $instance->get_role() ),
-                "Role name should not declared empty in {$fqcn}."
-            );
+			$this->assertTrue(
+				! empty( $instance->get_role() ),
+				"Role name should not declared empty in {$fqcn}."
+			);
 
-            $this->assertTrue(
-                !empty( $instance->get_display_name() ),
-                "Role display name should not declared empty in {$fqcn}."
-            );
+			$this->assertTrue(
+				! empty( $instance->get_display_name() ),
+				"Role display name should not declared empty in {$fqcn}."
+			);
 
-            Functions\expect( 'add_role' )
-                ->once()
-                ->with( $instance->get_role(), $instance->get_display_name(), $instance->get_capabilities() );
-        }
+			Functions\expect( 'add_role' )
+				->once()
+				->with( $instance->get_role(), $instance->get_display_name(), $instance->get_capabilities() );
+		}
 
-        $loader->register();
-    }
+		$loader->register();
+	}
 }
