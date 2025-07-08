@@ -8,8 +8,27 @@ if ( ! defined( 'ABSPATH' ) ) {
 use Itumulak\Includes\Interfaces\Loader;
 
 class RewriteRulesLoader implements Loader {
-	public function __construct() {}
-	public function init(): void {}
-	public function load(): void {}
-	public function register(): void {}
+	private array $rules = array();
+
+	public function __construct() {
+		$this->load();
+	}
+
+	public function init(): void {
+		$this->register();
+	}
+
+	public function register(): void {
+		foreach ( $this->rules as $rule ) {
+			$instance = new $rule();
+			add_action( 'init', array( $instance, 'rewrite_rules' ) );
+			add_filter( 'query_vars', array( $instance, 'query_vars' ) );
+		}
+	}
+
+	public function load(): void {
+		$this->rules = array(
+			SampleRule::class,
+		);
+	}
 }
