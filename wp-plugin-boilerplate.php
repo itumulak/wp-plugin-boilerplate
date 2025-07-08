@@ -22,8 +22,8 @@ define( 'WPPB_URL', plugin_dir_url( __FILE__ ) );
 
 require_once WPPB_PATH . 'vendor/autoload.php';
 
-register_activation_hook( __FILE__, 'tmt_hmg_activate_plugin' );
-function tmt_hmg_activate_plugin() {
+register_activation_hook( __FILE__, 'itumulak_activate_plugin' );
+function itumulak_activate_plugin() {
 	( new DatabaseLoader() )->init();
 }
 
