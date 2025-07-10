@@ -1,7 +1,6 @@
 # WP Plugin Boilerplate
 
-This is a modern approach (I think) built in the concept of **MVC architecture** and **Dependency Injection** design pattern. This boilerplate is ideal for building scalable, enterprise-level plugins that will power your WordPress application.
-
+This is a modern approach (I think) for building Enterprise WordPress plugins. I have consolidated all necessary tech stack that I know off that makes building scalable, enterprise-level plugins that will power your WordPress application.
 ## 🚀 Features
 
 ✅ **MVC Architecture**: Separation of Models, Views, and Controllers for **maintainability and clean code**. <br>
@@ -11,6 +10,8 @@ This is a modern approach (I think) built in the concept of **MVC architecture**
 ✅ **Hook Management**: Organized action and filter registration. <br>
 ✅ **WP REST API**: Build robust, scalable RESTful endpoints using the native **WordPress REST API framework**. <br>
 ✅ **Scalable Structure**: Designed with scalability in mind — easy to extend without being **limited** by rigid architecture. <br>
+✅ **Unit testing**: Built-in PHPUnit setup for testing use cases — helps catch regressions early and ensures code reliability. <br>
+✅ **PHP Code Sniffers**: Enforces **WordPress Coding Standards** using phpcs to maintain code consistency and improve readability. <br>
 
 ## 📁 Project Structure
 
@@ -32,6 +33,7 @@ wp-plugin-boilerplate/
 ├── src/                      # React source code (uncompiled)
 │   ├── blocks/               # React-based Gutenberg blocks
 │   └── pages/                # React-based views/pages
+├── tests/                    # PHPUnit tests (unit/integration tests for Models, Controllers, Routes, etc.)
 ├── vendor/                   # Composer-managed PHP dependencies
 ├── scripts/                  # Scripts for bundling Gutenburg blocks
 ├── index.php                 # WordPress fallback/index entry
@@ -39,6 +41,8 @@ wp-plugin-boilerplate/
 ├── vite.config.js            # Vite configuration file for bundling
 ├── .gitignore                # List of ignored files and folders
 ├── package.json              # JavaScript package manifest (npm/yarn)
+├── phpcs.xml                 # PHP_CodeSniffer configuration (defines coding standard, e.g. WordPress)
+├── phpunit.xml               # PHPUnit configuration file (bootstrap file, coverage, test suites)
 └── composer.json             # PHP dependencies and autoloader config
 ```
 
@@ -116,14 +120,45 @@ npm run build:blocks
 bash zip-project.sh
 ```
 
+## Detecting code violation and auto-fixes
+
+For checking for formatting issues:
+
+```sh
+./vendor/bin/phpcs --standard=phpcs.xml <REPLACE_WITH_PHP_PATH_FILES>
+
+```
+
+To fix formats and coding violation (for simple formats/violation only):
+
+```sh
+./vendor/bin/phpcbf --standard=phpcs.xml <REPLACE_WITH_PHP_PATH_FILES>
+```
+
+By default we are using WordPress coding standard for sniffing out code violation. I have filter out a few rule here. Feel free modify ``phpcs.xml`` if you want modify the sniffer rules to meet your objectives.
+
+## Unit Testing
+
+To unit test:
+
+```
+./vendor/bin/phpunit --bootstrap ./tests/bootstrap.php
+```
+
+Feel free to include your own unit test to meet your objectives.
+
+## Github Workflow (CI)
+
+This project includes a Github Workflow. It simply run unit testing and PHPCS for code violation. Feel free to add more steps.
+
 ## 📋 TODOs
 - Switch to Preact?
-- Refactor and refine codebase for registering hooks.
-- Utilize PHP Code Sniffer to the project. Go away with PSR-4?
-- Add PHP unit test.
+- Improve handling of database table changes.
+- ~~Add GitHub workflows.~~
+- ~~Refactor and refine codebase for registering hooks.~~
+- ~~Utilize PHP Code Sniffer to the project. Go away with PSR-4?~~
+- ~~Add PHP unit test.~~
 - ~~Provide Gutenburg support.~~
 
 ## 📜 License
 [GPL v2](https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html)
-
-
