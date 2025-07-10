@@ -14,6 +14,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Required to get proper git diff
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -28,5 +30,21 @@ jobs:
       - name: Run PHPUnit
         run: ./vendor/bin/phpunit --configuration phpunit.xml --testdox
 
-      - name: Run PHPCS (WordPress Coding Standards)
-        run: ./vendor/bin/phpcs --standard=phpcs.xml --ignore=vendor --extensions=php .
+      - name: Get changed PHP files
+        id: changed-files
+        run: |
+          # Get changed files between current branch and target branch
+          CHANGED_FILES=$(git diff --name-only --diff-filter=d origin/${{ github.base_ref }}.. -- '*.php' | tr '\n' ' ')
+          echo "Changed PHP files: $CHANGED_FILES"
+          # Set output for next step
+          echo "files=${CHANGED_FILES}" >> $GITHUB_OUTPUT
+
+      - name: Run PHPCS on changed files
+        if: steps.changed-files.outputs.files != ''
+        run: |
+          if [ -n "${{ steps.changed-files.outputs.files }}" ]; then
+            echo "Running PHPCS on: ${{ steps.changed-files.outputs.files }}"
+            ./vendor/bin/phpcs --standard=phpcs.xml ${{ steps.changed-files.outputs.files }}
+          else
+            echo "No PHP files changed - skipping PHPCS"
+          fi

@@ -2,7 +2,6 @@
 use PHPUnit\Framework\TestCase;
 use Brain\Monkey;
 use Brain\Monkey\Functions;
-use Brain\Monkey\Actions;
 use Itumulak\Includes\RewriteRules\RewriteRulesLoader;
 
 class RewriteLoaderTest extends TestCase {
