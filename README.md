@@ -26,6 +26,7 @@ wp-plugin-boilerplate/
 │   │   ├── Data/             # Data transfer objects (DTOs) and simple data structures
 │   │   └── DB/               # Establish database connections and query logic
 │   ├── RewriteRules/         # Custom WordPress rewrite rules
+│   ├── Roles/                # Custom WordPress roles
 │   ├── Routes/               # Registers REST API routes
 │   ├── Shortcodes/           # Custom WordPress shortcodes
 │   └── PluginLoader.php      # Initializes and loads all components from `includes/`
