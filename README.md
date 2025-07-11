@@ -133,7 +133,7 @@ composer phpcs <REPLACE_WITH_PHP_PATH_FILES>
 To fix formats and coding violation. For simple formats/violation only:
 
 ```sh
-composer phpcbf --standard=phpcs.xml <REPLACE_WITH_PHP_PATH_FILES>
+composer phpcbf <REPLACE_WITH_PHP_PATH_FILES>
 ```
 
 By default we are using WordPress coding standard for sniffing out code violation. I have filter out a few rule here. Feel free modify ``phpcs.xml`` if you want modify the sniffer rules to meet your objectives.
@@ -143,7 +143,7 @@ By default we are using WordPress coding standard for sniffing out code violatio
 To unit test:
 
 ```sh
-composer test --bootstrap ./tests/bootstrap.php
+composer test
 ```
 
 Feel free to include your own unit test to meet your objectives.
