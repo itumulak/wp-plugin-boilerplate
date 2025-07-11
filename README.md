@@ -118,7 +118,7 @@ npm run build:blocks
 ### Compile plugin into ZIP
 
 ```sh
-bash zip-project.sh
+composer zip
 ```
 
 ## Detecting code violation and auto-fixes

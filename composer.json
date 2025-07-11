@@ -27,6 +27,7 @@
     "scripts": {
         "phpcs": "vendor/bin/phpcs --standard=phpcs.xml",
         "phpcbf": "vendor/bin/phpcbf --standard=phpcs.xml",
-        "test": "vendor/bin/phpunit --bootstrap ./tests/bootstrap.php"
+        "test": "vendor/bin/phpunit --bootstrap ./tests/bootstrap.php",
+        "zip": "bash zip-project.sh"
     }
 }
