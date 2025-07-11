@@ -28,15 +28,18 @@ fi
 # Save original directory
 ORIGINAL_DIR=$(pwd)
 
-# Go up one directory to access folder
+# Go up one directory to access source folder
 cd .. || exit
 
-# Create a temporary folder with the new name
-TEMP_FOLDER="__zip_temp_$ZIP_FOLDER_NAME"
-cp -r "$FOLDER_NAME" "$TEMP_FOLDER"
+# Create a temporary workspace in /tmp
+TEMP_WORKSPACE="/tmp/__zip_temp_workspace_$$"
+mkdir -p "$TEMP_WORKSPACE"
 
-# Rename the folder inside the temp to match desired zip internal name
-mv "$TEMP_FOLDER" "$ZIP_FOLDER_NAME"
+# Copy project folder into temp workspace under the zip name
+cp -r "$FOLDER_NAME" "$TEMP_WORKSPACE/$ZIP_FOLDER_NAME"
+
+# Navigate into temp workspace
+cd "$TEMP_WORKSPACE" || exit
 
 echo "📦 Zipping '$ZIP_FOLDER_NAME' into '$ZIP_NAME'..."
 
