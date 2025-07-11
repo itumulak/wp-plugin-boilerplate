@@ -126,14 +126,14 @@ bash zip-project.sh
 For checking for formatting issues:
 
 ```sh
-./vendor/bin/phpcs --standard=phpcs.xml <REPLACE_WITH_PHP_PATH_FILES>
+composer phpcs <REPLACE_WITH_PHP_PATH_FILES>
 
 ```
 
-To fix formats and coding violation (for simple formats/violation only):
+To fix formats and coding violation. For simple formats/violation only:
 
 ```sh
-./vendor/bin/phpcbf --standard=phpcs.xml <REPLACE_WITH_PHP_PATH_FILES>
+composer phpcbf --standard=phpcs.xml <REPLACE_WITH_PHP_PATH_FILES>
 ```
 
 By default we are using WordPress coding standard for sniffing out code violation. I have filter out a few rule here. Feel free modify ``phpcs.xml`` if you want modify the sniffer rules to meet your objectives.
@@ -142,8 +142,8 @@ By default we are using WordPress coding standard for sniffing out code violatio
 
 To unit test:
 
-```
-./vendor/bin/phpunit --bootstrap ./tests/bootstrap.php
+```sh
+composer test --bootstrap ./tests/bootstrap.php
 ```
 
 Feel free to include your own unit test to meet your objectives.
