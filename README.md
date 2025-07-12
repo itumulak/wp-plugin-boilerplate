@@ -152,6 +152,45 @@ Feel free to include your own unit test to meet your objectives.
 
 This project includes a Github Workflow. It simply run unit testing and PHPCS for code violation. Feel free to add more steps.
 
+## Running your own local server (optional)
+
+<details>
+
+<summary>Docker setup</summary> <br/>
+
+
+This project comes with a `docker-compose.yml` file that lets you spin up a fully functional local WordPress development environment using Docker.
+
+### 📋 Prerequisites
+
+- Install [Docker](https://www.docker.com/get-started/).
+
+Copy `docker-compose.yml` to your project.
+
+```sh
+mkdir /var/www/html/<PROJECT_NAME_PATH>
+cd $_
+cp  <PATH_OF_WP_PLUGIN_BOILERPLATE>/docker-composer.yml /var/www/html/<PROJECT_NAME_PATH> && <PATH_OF_WP_PLUGIN_BOILERPLATE>/.env /var/www/html/<PROJECT_NAME_PATH>
+```
+
+Run `docker-compose.yml`.
+
+```sh
+docker compose up -d
+```
+
+Go to https://localhost:8080 (or what port you have define in `.env`) and complete the wordpress installation.
+
+Copy the whole WP Plugin Boilerplate folder into your working wordpress docker instance.
+
+```sh
+cp -r <PATH_OF_WP_PLUGIN_BOILERPLATE> /var/www/html/<PROJECT_NAME_PATH>/wordpress_data/wp-content/plugins/
+```
+
+</details>
+
+
+
 ## 📋 TODOs
 - Switch to Preact?
 - Improve handling of database table changes.

@@ -36,7 +36,7 @@ services:
     volumes:
       - ./wordpress_data:/var/www/html
     ports:
-      - "8081:80"
+      - "${DOCKER_WORDPRESS_PORT:-8000}:80"
   
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
@@ -52,7 +52,7 @@ services:
       PMA_PASSWORD: ${WP_DB_PASSWORD:-wordpress} # Optional: If you want phpMyAdmin to pre-fill a specific password
       # PMA_ARBITRARY: 1                           # Set to 1 to allow connecting to arbitrary servers, useful if PMA_HOST is not enough
     ports:
-      - "8003:80" # You can choose any available port for phpMyAdmin
+      - "${DOCKER_PHPMYADMIN_PORT:-8001}:80" # You can choose any available port for phpMyAdmin
 
 volumes:
   mysql_data:
