@@ -1,0 +1,59 @@
+services:
+  db:
+    image: mysql:${MYSQL_VERSION:-8.0.33}
+    container_name: mysql_db_${CONTAINER_NAME:-itumulak}
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${WP_ROOT_PASSWORD:-my_root_password}
+      MYSQL_DATABASE: ${WP_DB_NAME:-wordpress}
+      MYSQL_USER: ${WP_DB_USER:-wordpress}
+      MYSQL_PASSWORD: ${WP_DB_PASSWORD:-wordpress}
+    volumes:
+      - mysql_data:/var/lib/mysql
+    command: 
+      - --default-authentication-plugin=mysql_native_password
+      - --skip-ssl
+      - --lower_case_table_names=1
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 10s
+      retries: 10
+
+  wordpress:
+    image: wordpress:latest
+    container_name: wordpress_${CONTAINER_NAME:-itumulak}
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_NAME: ${WP_DB_NAME:-wordpress}
+      WORDPRESS_DB_USER: ${WP_DB_USER:-wordpress}
+      WORDPRESS_DB_PASSWORD: ${WP_DB_PASSWORD:-wordpress}
+      WORDPRESS_TABLE_PREFIX: ${WORDPRESS_TABLE_PREFIX:-wp_}
+    volumes:
+      - ./wordpress_data:/var/www/html
+    ports:
+      - "8081:80"
+  
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin_${CONTAINER_NAME:-itumulak}
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+      PMA_USER: ${WP_DB_USER:-wordpress}         # Optional: If you want phpMyAdmin to pre-fill a specific user
+      PMA_PASSWORD: ${WP_DB_PASSWORD:-wordpress} # Optional: If you want phpMyAdmin to pre-fill a specific password
+      # PMA_ARBITRARY: 1                           # Set to 1 to allow connecting to arbitrary servers, useful if PMA_HOST is not enough
+    ports:
+      - "8003:80" # You can choose any available port for phpMyAdmin
+
+volumes:
+  mysql_data:
+  wordpress_data:
