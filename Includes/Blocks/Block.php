@@ -14,9 +14,15 @@ class Block {
 		register_block_type( $this->get_block_file() );
 	}
 
-	protected function get_block_file(): string {
-		$block_path = WPPB_PATH . 'dist';
+	protected function get_block_path(): string {
+		return sprintf( '%s/dist/%s', WPPB_PATH, $this->folder );
+	}
 
-		return sprintf( '%s/%s/block.json', $block_path, $this->folder );
+	protected function get_block_file(): string {
+		return sprintf( '%s/block.json', $this->get_block_path() );
+	}
+
+	protected function get_block_manifest(): string {
+		return sprintf( '%s/blocks-manifest.php', $this->get_block_path() );
 	}
 }

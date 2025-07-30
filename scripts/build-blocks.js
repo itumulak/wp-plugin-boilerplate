@@ -4,7 +4,7 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
-// Convert import.meta.url to a path for __dirname equivalent
+// __dirname equivalent for ES modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -13,11 +13,31 @@ const distDir = path.resolve(__dirname, '../dist');
 
 console.log('Starting WordPress blocks build process...');
 
-if (!fs.existsSync(distDir)) {
-    fs.mkdirSync(distDir, { recursive: true });
+// Utility: Recursively copy contents of a folder (not the folder itself)
+function copyFolderContents(src, dest) {
+    if (!fs.existsSync(dest)) {
+        fs.mkdirSync(dest, { recursive: true });
+    }
+
+    fs.readdirSync(src).forEach(item => {
+        const srcPath = path.join(src, item);
+        const destPath = path.join(dest, item);
+
+        if (fs.statSync(srcPath).isDirectory()) {
+            copyFolderContents(srcPath, destPath);
+        } else {
+            fs.copyFileSync(srcPath, destPath);
+        }
+    });
 }
 
-// Get all block directories
+// Clean dist directory (optional but useful)
+if (fs.existsSync(distDir)) {
+    fs.rmSync(distDir, { recursive: true, force: true });
+}
+fs.mkdirSync(distDir, { recursive: true });
+
+// Get all block folders
 const blockFolders = fs.readdirSync(blocksDir, { withFileTypes: true })
     .filter(dirent => dirent.isDirectory())
     .map(dirent => dirent.name);
@@ -29,30 +49,28 @@ if (blockFolders.length === 0) {
 
 blockFolders.forEach(blockName => {
     const blockPath = path.join(blocksDir, blockName);
-    const buildOutputPath = path.join(blockPath, 'build');
+    const buildOutputBase = path.join(blockPath, 'build');
+    const nestedBuildFolder = path.join(buildOutputBase, blockName);
     const finalDistPath = path.join(distDir, blockName);
 
     console.log(`\n--- Building block: ${blockName} ---`);
 
     try {
-        // Change directory to the block folder and run wp-scripts --build
-        execSync('npx wp-scripts build', { stdio: 'inherit', cwd: blockPath });
+        // Run build
+        execSync('npm run build', { stdio: 'inherit', cwd: blockPath });
         console.log(`Successfully built ${blockName}.`);
 
-        // Move the 'build' folder to 'dist/{blockName}'
-        if (fs.existsSync(buildOutputPath)) {
-            console.log(`Moving ${buildOutputPath} to ${finalDistPath}...`);
-            // Ensure the parent directory for the final path exists
-            fs.mkdirSync(path.dirname(finalDistPath), { recursive: true });
-            fs.renameSync(buildOutputPath, finalDistPath);
-            console.log(`Moved ${blockName} build to ${finalDistPath}`);
+        if (fs.existsSync(nestedBuildFolder)) {
+            console.log(`Copying contents of ${nestedBuildFolder} to ${finalDistPath}...`);
+            copyFolderContents(nestedBuildFolder, finalDistPath);
+            console.log(`Copied build of ${blockName} to ${finalDistPath}`);
         } else {
-            console.warn(`Warning: 'build' folder not found for ${blockName} at ${buildOutputPath}. Skipping move.`);
+            console.warn(`Warning: Expected build folder not found: ${nestedBuildFolder}`);
         }
 
-    } catch (error) {
-        console.error(`Error building or moving block ${blockName}:`, error.message);
-        process.exit(1); // Exit with an error code
+    } catch (err) {
+        console.error(`Error processing ${blockName}:`, err.message);
+        process.exit(1);
     }
 });
 

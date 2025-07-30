@@ -11,6 +11,6 @@ class BlockLoader {
 	}
 
 	public function blocks(): void {
-		new Block( 'copyright-date-block' );
+		new Block( 'wp-login-sample' );
 	}
 }
