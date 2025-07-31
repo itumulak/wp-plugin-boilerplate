@@ -1,41 +1,66 @@
-/**
- * Retrieves the translation of text.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-i18n/
- */
 import { __ } from '@wordpress/i18n';
+import {
+	InspectorControls,
+	useBlockProps,
+} from '@wordpress/block-editor';
 
-/**
- * React hook that is used to mark the block wrapper element.
- * It provides all the necessary props like the class name.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
- */
-import { useBlockProps } from '@wordpress/block-editor';
+import {
+	PanelBody,
+	TextControl,
+	TextareaControl,
+	ToggleControl,
+} from "@wordpress/components";
 
-/**
- * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
- * Those files can contain any CSS code that gets applied to the editor.
- *
- * @see https://www.npmjs.com/package/@wordpress/scripts#using-css
- */
 import './editor.scss';
 
-/**
- * The edit function describes the structure of your block in the context of the
- * editor. This represents what the editor will render when the block is used.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-edit-save/#edit
- *
- * @return {Element} Element to render.
- */
-export default function Edit() {
-	return (
-		<p { ...useBlockProps() }>
-			{ __(
-				'Newsletter Sample – hello from the editor!',
-				'newsletter-sample'
-			) }
-		</p>
-	);
+export default function Edit({ attributes, setAttributes }) {
+	try {
+		const { title, showTitle, description, showDescription } = attributes;
+
+		return (
+			<>
+				<InspectorControls>
+					<PanelBody title={__('Settings', 'newsletter-sample')}>
+						<ToggleControl
+							checked={!!showTitle}
+							label={__('Show title', 'newsletter-sample')}
+							onChange={(value) => setAttributes({ showTitle: value })}
+						/>
+						{showTitle && (
+							<TextControl
+								label={__('Title', 'newsletter-sample')}
+								value={title || ''}
+								onChange={(value) => setAttributes({ title: value })}
+							/>
+						)}
+
+						<ToggleControl
+							checked={!!showDescription}
+							label={__('Show description', 'newsletter-sample')}
+							onChange={(value) => setAttributes({ showDescription: value })}
+						/>
+						{showDescription && (
+							<TextareaControl
+								label={__('Description', 'newsletter-sample')}
+								placeholder={ __('Add description here...', 'newsletter-sample') }
+								value={description || ''}
+								onChange={(value) => setAttributes({ description: value })}
+							/>
+						)}
+					</PanelBody>
+				</InspectorControls>
+
+				<div {...useBlockProps()}>
+					{__('Newsletter Sample – hello from the editor!', 'newsletter-sample')}
+				</div>
+			</>
+		);
+	} catch (error) {
+		console.error('Block render error:', error);
+		return (
+			<div {...useBlockProps()} style={{ color: 'red' }}>
+				Error loading block. Check console for details.
+			</div>
+		);
+	}
 }
