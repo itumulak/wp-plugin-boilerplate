@@ -12,5 +12,6 @@ class BlockLoader {
 
 	public function blocks(): void {
 		new Block( 'wp-login-sample' );
+		new Block( 'newsletter-sample' );
 	}
 }
