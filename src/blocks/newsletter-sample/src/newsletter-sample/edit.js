@@ -3,19 +3,21 @@ import {
 	InspectorControls,
 	useBlockProps,
 } from '@wordpress/block-editor';
-
 import {
 	PanelBody,
 	TextControl,
 	TextareaControl,
 	ToggleControl,
+	Button
 } from "@wordpress/components";
+import { useState } from '@wordpress/element';
 
 import './editor.scss';
 
 export default function Edit({ attributes, setAttributes }) {
 	try {
 		const { title, showTitle, description, showDescription } = attributes;
+		const [email, setEmail] = useState('');
 
 		return (
 			<>
@@ -29,7 +31,7 @@ export default function Edit({ attributes, setAttributes }) {
 						{showTitle && (
 							<TextControl
 								label={__('Title', 'newsletter-sample')}
-								value={title || ''}
+								value={title || 'Subscribe to our Newsletter'}
 								onChange={(value) => setAttributes({ title: value })}
 							/>
 						)}
@@ -43,7 +45,7 @@ export default function Edit({ attributes, setAttributes }) {
 							<TextareaControl
 								label={__('Description', 'newsletter-sample')}
 								placeholder={ __('Add description here...', 'newsletter-sample') }
-								value={description || ''}
+								value={description || 'Sign up to our newsletter and get the latest news.'}
 								onChange={(value) => setAttributes({ description: value })}
 							/>
 						)}
@@ -51,7 +53,10 @@ export default function Edit({ attributes, setAttributes }) {
 				</InspectorControls>
 
 				<div {...useBlockProps()}>
-					{__('Newsletter Sample – hello from the editor!', 'newsletter-sample')}
+					{showTitle && <h2>{__(title, 'newsletter-sample')}</h2>}
+					{showDescription && <p>{__(description, 'newsletter-sample')}</p>}
+					<TextControl type="email" placeholder="Enter your email address" onChange={(e) => setEmail(e.target.value)} />
+					<Button variant="primary">Subscribe</Button>
 				</div>
 			</>
 		);

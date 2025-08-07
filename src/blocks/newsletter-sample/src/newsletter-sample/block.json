@@ -6,6 +6,24 @@
 	"title": "Newsletter Sample",
 	"category": "widgets",
 	"icon": "smiley",
+	"attributes": {
+		"title": {
+			"type": "string",
+			"default": "Subscribe to our Newsletter"
+		},
+		"showTitle": {
+			"type": "boolean",
+			"default": true
+		},
+		"description": {
+			"type": "string",
+			"default": "Sign up to our newsletter and get the latest news."
+		},
+		"showDescription": {
+			"type": "boolean",
+			"default": true
+		}
+	},
 	"description": "Example block scaffolded with Create Block tool.",
 	"example": {},
 	"supports": {
