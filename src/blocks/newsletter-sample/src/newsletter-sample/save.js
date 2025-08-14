@@ -10,6 +10,8 @@ export default function save({attributes}) {
 			{ showDescription && <p>{ description }</p> }
 			<form>
 				<input
+					id="newsletter-email"
+					name="newsletter_email"
 					type="email"
 					placeholder={__('Email', 'newsletter-sample')}
 					required
