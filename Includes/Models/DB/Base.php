@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 } // Exit if accessed directly
 
 class Base implements CRUD {
-	const PREFIX = '';
+	const PREFIX = 'sample_';
 	public string $table_name;
 	protected wpdb $db;
 	protected string $collate = 'utf8mb4_unicode_520_ci';

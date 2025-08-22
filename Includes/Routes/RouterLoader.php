@@ -3,6 +3,7 @@ namespace Itumulak\Includes\Routes;
 
 use Itumulak\Includes\Interfaces\Loader;
 use Itumulak\Includes\Routes\SampleNotes;
+use Itumulak\Includes\Routes\NewsLetterSample;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -29,6 +30,7 @@ class RouterLoader implements Loader {
 	public function load(): void {
 		$this->routes = array(
 			SampleNotes::class,
+			NewsLetterSample::class
 		);
 	}
 }
