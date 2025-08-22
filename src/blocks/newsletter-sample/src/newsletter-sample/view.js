@@ -1,15 +1,13 @@
 import { store } from '@wordpress/interactivity';
 
-console.log('Newsletter sample view.js loaded ✅');
-
-store('newsletter-sample', {
+const { state } = store('newsletter-sample', {
 	state: {
-		complete: false
+		complete: false,
 	},
 	actions: {
-		handleSubmit: ({state}) => {
+		handleSubmit: () => {
 			console.log('form submitted');
 			state.complete = true;
-		}
-	}
+		},
+	},
 });
