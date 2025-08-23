@@ -19,7 +19,7 @@ class NewsLetterSample {
 
     public function add( string $email ): int|WP_Error {
         try {
-            $data = array( 'email' => $email, 'is_subscribed' => true, 'date_added' => date( 'Y-m-d H:i:s' ) );
+            $data = array( 'email' => $email, 'is_subscribed' => true, 'date_added' => date( 'Y-m-d H:i:s' ), 'date_updated' => date( 'Y-m-d H:i:s' ) );
             return $this->db->insert( $data );
         } catch ( WP_Error $e ) {
             return $e;
@@ -29,7 +29,7 @@ class NewsLetterSample {
     public function update( string $email, bool $is_subscribed ): bool|WP_Error {
         try {
             $where = array( 'email' => $email );
-            $data = array( 'is_subscribed' => $is_subscribed );
+            $data = array( 'is_subscribed' => $is_subscribed, 'date_updated' => date( 'Y-m-d H:i:s' ) );
             return $this->db->update( $where, $data );
         } catch ( WP_Error $e ) {
             return $e;

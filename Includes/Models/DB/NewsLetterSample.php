@@ -21,7 +21,8 @@ class NewsLetterSample extends Base implements DBTable {
                ID bigint(20) NOT NULL AUTO_INCREMENT,
                email text NOT NULL COLLATE $this->collate,
                is_subcribed tinyint(1) NOT NULL DEFAULT 1,
-               date_added DATETIME NOT NULL COLLATE $this->collate,
+               date_added DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+               date_updated DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
                PRIMARY KEY (ID)
            ) {$this->get_charset_collate()}"
         );
