@@ -30,7 +30,7 @@ class RouterLoader implements Loader {
 	public function load(): void {
 		$this->routes = array(
 			SampleNotes::class,
-			NewsLetterSample::class
+			NewsLetterSample::class,
 		);
 	}
 }

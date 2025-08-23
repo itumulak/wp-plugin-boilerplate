@@ -2,7 +2,7 @@
 namespace Itumulak\Includes\Models;
 
 if ( ! defined( 'ABSPATH' ) ) {
-    exit;
+	exit;
 } // Exit if accessed directly
 
 use Itumulak\Includes\Models\DB\NewsLetterSample as NewsLetterSampleDB;
@@ -11,37 +11,47 @@ use WP;
 use WP_Error;
 
 class NewsLetterSample {
-    private NewsLetterSampleDB $db;
+	private NewsLetterSampleDB $db;
 
-    public function __construct() {
-        $this->db = new NewsLetterSampleDB();
-    }
+	public function __construct() {
+		$this->db = new NewsLetterSampleDB();
+	}
 
-    public function add( string $email ): int|WP_Error {
-        try {
-            $data = array( 'email' => $email, 'is_subscribed' => true, 'date_added' => date( 'Y-m-d H:i:s' ), 'date_updated' => date( 'Y-m-d H:i:s' ) );
-            return $this->db->insert( $data );
-        } catch ( WP_Error $e ) {
-            return $e;
-        }
-    }
+	public function add( string $email ): int|WP_Error {
+		try {
+			$data = array(
+				'email'         => $email,
+				'is_subscribed' => true,
+				'date_added'    => gmdate( 'Y-m-d H:i:s' ),
+				'date_updated'  => gmdate( 'Y-m-d H:i:s' ),
+			);
 
-    public function update( string $email, bool $is_subscribed ): bool|WP_Error {
-        try {
-            $where = array( 'email' => $email );
-            $data = array( 'is_subscribed' => $is_subscribed, 'date_updated' => date( 'Y-m-d H:i:s' ) );
-            return $this->db->update( $where, $data );
-        } catch ( WP_Error $e ) {
-            return $e;
-        }
-    }
+			return $this->db->insert( $data );
+		} catch ( WP_Error $e ) {
+			return $e;
+		}
+	}
 
-    public function does_record_exists( string $email ): bool|WP_Error {
-        try {
-            $where = new QueryWhere( 1, null, array( 'email' => $email ), null, null );
-            return $this->db->count_records( $where );
-        } catch ( WP_Error $e ) {
-            return $e;
-        }
-    }
+	public function update( string $email, bool $is_subscribed ): bool|WP_Error {
+		try {
+			$where = array( 'email' => $email );
+			$data  = array(
+				'is_subscribed' => $is_subscribed,
+				'date_updated'  => gmdate( 'Y-m-d H:i:s' ),
+			);
+
+			return $this->db->update( $where, $data );
+		} catch ( WP_Error $e ) {
+			return $e;
+		}
+	}
+
+	public function does_record_exists( string $email ): bool|WP_Error {
+		try {
+			$where = new QueryWhere( 1, null, array( 'email' => $email ), null, null );
+			return $this->db->count_records( $where );
+		} catch ( WP_Error $e ) {
+			return $e;
+		}
+	}
 }

@@ -1,13 +1,13 @@
 <div
 	id="newsletter-sample"
 	data-wp-interactive="newsletter-sample"
-	<?php echo get_block_wrapper_attributes(); ?>
+	<?php echo get_block_wrapper_attributes(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 >
-	<?php if ($attributes['showTitle']): ?>
-		<h2><?php echo esc_html($attributes['title']); ?></h2>
+	<?php if ( $attributes['showTitle'] ) : ?>
+		<h2><?php echo esc_html( $attributes['title'] ); ?></h2>
 	<?php endif; ?>
-	<?php if ($attributes['showDescription']): ?>
-		<p><?php echo esc_html($attributes['description']); ?></p>
+	<?php if ( $attributes['showDescription'] ) : ?>
+		<p><?php echo esc_html( $attributes['description'] ); ?></p>
 	<?php endif; ?>
 
 	<div data-wp-bind--hidden="state.complete">
