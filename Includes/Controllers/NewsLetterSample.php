@@ -15,11 +15,17 @@ class NewsLetterSample {
         $this->model = new NewsLetterSampleModel();
     }
 
-    public function handle_subscribe( string $email ): int|false|WP_Error {
-        if ( is_email( $email ) ) {
-            return new WP_Error( 'invalid_email', 'Invalid email' );
+    public function handle_subscribe( string $email ): int|WP_Error {
+        if ( ! is_email( $email ) ) {
+            return new WP_Error( 'invalid_email', 'Invalid email ', array( 'status' => 400, 'email' => $email ) );
         }
 
-        return $this->model->add( $email );
+        $recorded = $this->model->does_record_exists( $email );
+        
+        if ( $recorded ) {
+            return $this->model->update( $email, true );
+        } else {
+            return $this->model->add( $email );
+        }
     }
 }

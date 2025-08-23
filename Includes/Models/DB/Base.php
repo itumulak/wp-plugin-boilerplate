@@ -97,7 +97,7 @@ class Base implements CRUD {
 		if ( false === $response ) {
 			return new WP_Error(
 				'update_failed',
-				'Update failed'
+				'Update failed',
 			);
 		}
 
