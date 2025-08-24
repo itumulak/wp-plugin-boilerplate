@@ -1,0 +1,39 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "create-block/newsletter-sample",
+	"version": "0.1.0",
+	"title": "Newsletter Sample",
+	"category": "widgets",
+	"icon": "smiley",
+	"attributes": {
+		"title": {
+			"type": "string",
+			"default": "Subscribe to our Newsletter"
+		},
+		"showTitle": {
+			"type": "boolean",
+			"default": true
+		},
+		"description": {
+			"type": "string",
+			"default": "Sign up to our newsletter and get the latest news."
+		},
+		"showDescription": {
+			"type": "boolean",
+			"default": true
+		}
+	},
+	"description": "Example block scaffolded with Create Block tool.",
+	"example": {},
+	"supports": {
+		"interactivity": true,
+		"html": false
+	},
+	"textdomain": "newsletter-sample",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css",
+	"render": "file:./render.php",
+	"viewScriptModule": "file:./view.js"
+}

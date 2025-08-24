@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 } // Exit if accessed directly
 
 class Base implements CRUD {
-	const PREFIX = '';
+	const PREFIX = 'sample_';
 	public string $table_name;
 	protected wpdb $db;
 	protected string $collate = 'utf8mb4_unicode_520_ci';
@@ -97,7 +97,7 @@ class Base implements CRUD {
 		if ( false === $response ) {
 			return new WP_Error(
 				'update_failed',
-				'Update failed'
+				'Update failed',
 			);
 		}
 

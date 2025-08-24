@@ -1,0 +1,42 @@
+/**
+ * The following styles get applied both on the front of your site
+ * and in the editor.
+ *
+ * Replace them with your own styles or remove the file completely.
+ */
+
+.wp-block-create-block-newsletter-sample {
+	background-color: #ffb759;
+	border-radius: 8px;
+	color: #fff;
+	padding: 3rem 2.5rem;
+
+	h2, p {
+		text-align: center;
+		color: #000;
+	}
+
+	form {
+		display: flex;
+		flex-direction: column;
+		row-gap: 0.3rem;
+	}
+
+	input, button {
+		width: -webkit-fill-available;
+		height: 2rem;
+		padding: 5px 10px;
+		border-radius: 5px;
+		border: 1px solid;
+	}
+
+	button {
+		margin-top: 5px;
+		background-color: #000;
+		color: #fff;
+		cursor: pointer;
+		height: 2.5rem;
+		border-color: transparent;
+		font-weight: 700;
+	}
+}
