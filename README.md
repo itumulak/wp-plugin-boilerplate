@@ -187,8 +187,8 @@ Clone ``wp-docker-server``:
 git clone https://github.com/itumulak/wp-docker-server
 ```
 
-[!TIP]
-Modify values in `.env` such as ports, DB name, DB password, etc. to your preference.
+> [!TIP]
+> Modify values in `.env` such as ports, DB name, DB password, etc. to your preference.
 
 Run `docker-compose.yml`.
 
