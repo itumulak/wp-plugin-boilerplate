@@ -32,7 +32,7 @@ wp-plugin-boilerplate/
 │   └── PluginLoader.php      # Initializes and loads all components from `includes/`
 ├── Pages/                    # View layer / page entry points (React or PHP-based)
 ├── src/                      # React source code (uncompiled)
-│   ├── blocks/               # React-based Gutenberg blocks
+│   ├── blocks/               # Gutenberg blocks
 │   └── pages/                # React-based views/pages
 ├── tests/                    # PHPUnit tests (unit/integration tests for Models, Controllers, Routes, etc.)
 ├── vendor/                   # Composer-managed PHP dependencies
@@ -71,16 +71,47 @@ composer install
 3. **Install frontend dependencies and build React:**
 
 ```sh
-npm install --legacy-peer-deps
+npm install
 ```
 
 4. **Activate the plugin in the WordPress admin dashboard.**
 
 ## 🧪 Development
 
+### Gutenburg Development
+
+Ensure that your blocks are registered in ``Includes\Blocks\BlockLoader.php``:
+
+```php
+<?php
+namespace Itumulak\Includes\Blocks;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+} // Exit if accessed directly
+
+class BlockLoader {
+	public function init(): void {
+		add_action( 'init', array( $this, 'blocks' ) );
+	}
+
+	public function blocks(): void {
+		// Register your blocks here...
+		// new Block( 'blocks/newsletter-sample' );
+	}
+}
+
+```
+
+To build and compile:
+
+```sh
+npm run build
+```
+
 ### React Development
 
-Ensure that your React components are registered in ``vite.config.js``.
+To build React components (non-Gutenburg blocks), ensure they are registered in ``vite.config.js``.
 
 ```js
 ...
@@ -97,22 +128,7 @@ Ensure that your React components are registered in ``vite.config.js``.
 To build and compile:
 
 ```sh
-npm run build
-```
-
-### Gutenburg Development
-
-Create your start Block:
-
-```sh
-cd ./src/blocks
-npx @wordpress/create-block your-block-folder
-```
-
-To build and compile:
-
-```sh
-npm run build:blocks
+npm run build:vite
 ```
 
 ### Compile plugin into ZIP
@@ -165,13 +181,14 @@ This project comes with a `docker-compose.yml` file that lets you spin up a full
 
 - Install [Docker](https://www.docker.com/get-started/).
 
-Copy `docker-compose.yml` to your project.
+Clone ``wp-docker-server``:
 
 ```sh
-mkdir /var/www/html/<PROJECT_NAME_PATH>
-cd $_
-cp  <PATH_OF_WP_PLUGIN_BOILERPLATE>/docker-composer.yml /var/www/html/<PROJECT_NAME_PATH> && <PATH_OF_WP_PLUGIN_BOILERPLATE>/.env /var/www/html/<PROJECT_NAME_PATH>
+git clone https://github.com/itumulak/wp-docker-server
 ```
+
+> [!TIP]
+> Modify values in `.env` such as ports, DB name, DB password, etc. to your preference.
 
 Run `docker-compose.yml`.
 

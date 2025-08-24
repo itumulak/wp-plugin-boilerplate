@@ -2,7 +2,7 @@
 /**
  * Plugin Name: WP Plugin Boilerplate
  * Description:
- * Version: 0.2.0
+ * Version: 0.3.0
  * Author: Ian Tumulak
  * License: GPL2
  * Text Domain: itumulak/wp-boilerplate
