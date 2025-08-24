@@ -15,7 +15,7 @@ class Block {
 	}
 
 	protected function get_block_path(): string {
-		return sprintf( '%s/dist/%s', WPPB_PATH, $this->folder );
+		return sprintf( '%s/build/%s', WPPB_PATH, $this->folder );
 	}
 
 	protected function get_block_file(): string {
