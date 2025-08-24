@@ -11,7 +11,8 @@ class RewriteRulesLoader implements Loader {
 	private array $rules = array();
 
 	public function __construct() {
-		// $this->load(); // @todo Fix an issue where WordPress will break. // phpcs:ignore
+		// phpcs:ignore
+		// $this->load(); // @todo Fix an issue where WordPress will break.
 	}
 
 	public function init(): void {
