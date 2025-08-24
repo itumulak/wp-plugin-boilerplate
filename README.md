@@ -174,9 +174,6 @@ This project includes a Github Workflow. It simply run unit testing and PHPCS fo
 
 <summary>Docker setup</summary> <br/>
 
-
-This project comes with a `docker-compose.yml` file that lets you spin up a fully functional local WordPress development environment using Docker.
-
 ### 📋 Prerequisites
 
 - Install [Docker](https://www.docker.com/get-started/).
